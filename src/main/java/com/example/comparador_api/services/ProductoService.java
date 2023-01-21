@@ -1,21 +1,13 @@
 package com.example.comparador_api.services;
 
-import com.example.comparador_api.Utils.GeoLocalizacion;
 import com.example.comparador_api.entities.Producto;
 import com.example.comparador_api.repositories.ProductoRepo;
 import lombok.RequiredArgsConstructor;
-
-import lombok.Value;
-import org.apache.catalina.connector.Request;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
-import java.awt.*;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -23,10 +15,9 @@ import java.util.List;
 public class ProductoService {
 
     private final ProductoRepo productoRepo;
-
-    @Autowired
     private Environment env;
-    private String API_KEY = env.getProperty("googleApiKey");
+    @Value("${googleApiKey}")
+    private String API_KEY;
 
     public List<Producto> obtenerTodos(){
         return productoRepo.findAll();
