@@ -5,7 +5,10 @@ import com.example.comparador_api.entities.Producto;
 import com.example.comparador_api.repositories.ProductoRepo;
 import lombok.RequiredArgsConstructor;
 
+import lombok.Value;
 import org.apache.catalina.connector.Request;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +24,10 @@ public class ProductoService {
 
     private final ProductoRepo productoRepo;
 
+    @Autowired
+    private Environment env;
+    private String API_KEY = env.getProperty("googleApiKey");
+
     public List<Producto> obtenerTodos(){
         return productoRepo.findAll();
     }
@@ -29,8 +36,11 @@ public class ProductoService {
     public String obtenerDistancia() {
         RestTemplate restTemplate = new RestTemplate();
 
+        String destination= "F75X+985, Av. Bartolomé Colón,Santiago De Los Caballeros 51000";
+        String origin = "19.47174187123321,-70.67976578898234";
+        String url = "https://maps.googleapis.com/maps/api/distancematrix/json";
         return restTemplate.getForObject(
-                "https://maps.googleapis.com/maps/api/distancematrix/json?destinations=F75X+985, Av. Bartolomé Colón,Santiago De Los Caballeros 51000|19.45619239996315,-70.70099395491553&origins=19.47174187123321,-70.67976578898234&key=AIzaSyBfE2yfo13M25uN_s7l-rBKy71-Y0UtJjQ",
+                url + "?destinations=" + destination + "&origins=" + origin + "&key="+API_KEY,
                 String.class
                 );
 
