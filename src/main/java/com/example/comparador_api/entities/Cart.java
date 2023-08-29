@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
@@ -14,12 +13,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Document("Productos")
-public class Producto {
+@Document("Carrito")
+public class Cart {
     @Id
     private String id;
-    @Field("nombre")
-    private String nombre;
-    @Field("productos")
-    private List<Item> productos;
+    private List<Producto> products;
 }
